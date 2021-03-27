@@ -1,0 +1,104 @@
+openapi: "3.0.0"
+
+info:
+  title: Hello World
+  version: "1.0"
+
+servers:
+  - url: /
+
+paths:
+  /fibonaccivalue:
+    get:
+      operationId: api.fibonacci.fibonacci_value
+      responses:
+        '200':
+          description: Successfully retrived value
+          content:
+            application/json:
+              schema:
+                type: number
+                example: "2"
+        '400':
+          description: Invalid number
+      parameters:
+        - $ref: "#/components/parameters/number"
+
+  /fibonaccivalues:
+    get:
+      operationId: api.fibonacci.fibonacci_values
+      responses:
+        '200':
+          description: Successfully retrived values
+          content:
+            application/json:
+              schema:
+                type: array
+                example: "[ [1, 0], [2, 1], [3, 1], [4, 2]]"
+                items:
+                  type: number
+        '400':
+          description: Invalid number
+      parameters:
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/items_per_page"
+
+  /blacklist:
+    post:
+      operationId: api.fibonacci.blacklist_add
+      responses:
+        '200':
+          description: Successfully added value to blacklist
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Value 2 added to blacklist
+        '400':
+          description: Invalid value.
+      parameters:
+        - $ref: "#/components/parameters/number"
+    delete:
+      operationId: api.fibonacci.blacklist_remove
+      responses:
+        '200':
+          description: Successfully removed value from blacklist
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Value 2 removed from blacklist
+        '400':
+          description: Value is not on balcklist.
+      parameters:
+        - $ref: "#/components/parameters/number"
+
+components:
+  parameters:
+    number:
+      name: number
+      description: Fibonacci number
+      required: true
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        example: 3
+    page:
+      name: page
+      description: Fibonacci results page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        example: 1
+        default: 1
+    items_per_page:
+      name: items_per_page
+      description: Fibonnaci values for page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        example: 100
+        default: 100
