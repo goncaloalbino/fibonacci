@@ -24,7 +24,7 @@ paths:
                     type: number
                     example: 2
         '400':
-          description: Bad request
+          description: Invalid number
           content:
             application/json:
               schema:
@@ -34,8 +34,6 @@ paths:
                   value:
                     type: string
                     example: Number 2 is blacklisted
-        '500':
-          description: Invalid number
       parameters:
         - $ref: "#/components/parameters/number"
 
@@ -56,7 +54,7 @@ paths:
                     example: "[ [1, 0], [2, 1], [3, 1], [4, 2]]"
                     items:
                       type: number
-        '500':
+        '400':
           description: Invalid number
       parameters:
         - $ref: "#/components/parameters/page"
@@ -77,8 +75,8 @@ paths:
                   value:
                     type: string
                     example: Value 2 added to blacklist
-        '500':
-          description: Invalid value.
+        '400':
+          description: Invalid number
       parameters:
         - $ref: "#/components/parameters/number"
     delete:
@@ -96,7 +94,7 @@ paths:
                     type: string
                     example: Value 2 removed from blacklist
         '400':
-          description: Value is not on blacklist.
+          description: Invalid number
           content:
             application/json:
               schema:
@@ -106,8 +104,6 @@ paths:
                   value:
                     type: string
                     example: Value 2 is not blacklisted
-        '500':
-          description: Invalid number
       parameters:
         - $ref: "#/components/parameters/number"
 
