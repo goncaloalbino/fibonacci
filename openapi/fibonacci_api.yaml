@@ -25,6 +25,8 @@ paths:
                     example: 2
         '400':
           description: Invalid number
+        '404':
+          description: Number not found
           content:
             application/json:
               schema:
@@ -95,6 +97,8 @@ paths:
                     example: Value 2 removed from blacklist
         '400':
           description: Invalid number
+        '404':
+          description: Not found
           content:
             application/json:
               schema:

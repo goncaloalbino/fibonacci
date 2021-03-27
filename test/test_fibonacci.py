@@ -38,10 +38,10 @@ class FibonacciTest(unittest.TestCase):
         value_2 = fibonacci_value(5)
 
         self.assertIn(value_1[0]["value"], "Number 2 is blacklisted")
-        self.assertEqual(value_1[1], 400)
+        self.assertEqual(value_1[1], 404)
 
         self.assertIn(value_2[0]["value"], "Number 5 is blacklisted")
-        self.assertEqual(value_2[1], 400)
+        self.assertEqual(value_2[1], 404)
 
     def test_fibonacci_values(self):
         numbers = range(1, len(FIBONACCI_VALUES) + 1)
@@ -88,7 +88,7 @@ class FibonacciTest(unittest.TestCase):
 
         result = blacklist_remove(number)
 
-        self.assertEqual(result[1], 400)
+        self.assertEqual(result[1], 404)
         self.assertIn(result[0]["value"],  f"Value {number} is not blacklisted")
 
     @patch('api.fibonacci.BLACKLIST', {5})

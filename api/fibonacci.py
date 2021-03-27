@@ -34,7 +34,7 @@ def fibonacci_value(number: int) -> Tuple[Dict[str, Union[str, int]], int]:
     :return: Fibonacci value and status code. Status message if number is blacklisted
     """
     if number in BLACKLIST:
-        return {"value": f"Number {number} is blacklisted"}, 400
+        return {"value": f"Number {number} is blacklisted"}, 404
     return {"value": fibonacci_sequence(number)[number]}, 200
 
 
@@ -73,4 +73,4 @@ def blacklist_remove(number) -> Tuple[Dict[str, str], int]:
         BLACKLIST.remove(number)
         return {"value": f"Value {number} removed from blacklist"}, 200
     except KeyError:
-        return {"value": f"Value {number} is not blacklisted"}, 400
+        return {"value": f"Value {number} is not blacklisted"}, 404
