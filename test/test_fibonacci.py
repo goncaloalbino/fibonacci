@@ -49,9 +49,12 @@ class FibonacciTest(unittest.TestCase):
         fib_sequence2 = fibonacci_values(page=2, items_per_page=5)
         fib_sequence3 = fibonacci_values(page=3, items_per_page=3)
 
-        self.assertEqual(fib_sequence1[0]["values"], list(zip(numbers, FIBONACCI_VALUES)))
-        self.assertEqual(fib_sequence2[0]["values"], list(zip(numbers[5:], FIBONACCI_VALUES[5:])))
-        self.assertEqual(fib_sequence3[0]["values"], list(zip(numbers[6:9], FIBONACCI_VALUES[6:9])))
+        self.assertEqual(fib_sequence1[0]["values"],
+                         list(zip(numbers, FIBONACCI_VALUES)))
+        self.assertEqual(fib_sequence2[0]["values"],
+                         list(zip(numbers[5:], FIBONACCI_VALUES[5:])))
+        self.assertEqual(fib_sequence3[0]["values"],
+                         list(zip(numbers[6:9], FIBONACCI_VALUES[6:9])))
         self.assertEqual(fib_sequence3[1], 200)
 
     @patch('api.fibonacci.BLACKLIST', {2, 5})

@@ -38,7 +38,7 @@ def fibonacci_value(number: int) -> Tuple[Dict[str, Union[str, int]], int]:
     return {"value": fibonacci_sequence(number)[number]}, 200
 
 
-def fibonacci_values(page: int, items_per_page: int) -> Tuple[Dict[str, List[Tuple[int, int]]], int]:
+def fibonacci_values(page: int, items_per_page: int) -> Tuple[Dict[str, List[Tuple]], int]:
     """
     Gets all the fibonacci numbers and corresponding values from the fibonacci sequence
     for the page requested. If any of the numbers are on the BLACKLIST those are removed
