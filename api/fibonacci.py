@@ -27,18 +27,18 @@ def fibonacci_sequence(number: int) -> Dict[int, int]:
     return sequence
 
 
-def fibonacci_value(number: int) -> Tuple[Union[int, str], int]:
+def fibonacci_value(number: int) -> Tuple[Dict[str, Union[str, int]], int]:
     """
     Get the value of a requested number from the fibonacci sequence
     :param number: Fibonacci number
-    :return: Fibonacci value and status code
+    :return: Fibonacci value and status code. Status message if number is blacklisted
     """
     if number in BLACKLIST:
-        return f"Number {number} is blacklisted", 400
-    return fibonacci_sequence(number)[number], 200
+        return {"value": f"Number {number} is blacklisted"}, 400
+    return {"value": fibonacci_sequence(number)[number]}, 200
 
 
-def fibonacci_values(page: int, items_per_page: int) -> Tuple[List[Tuple[int, int]], int]:
+def fibonacci_values(page: int, items_per_page: int) -> Tuple[Dict[str, List[Tuple[int, int]]], int]:
     """
     Gets all the fibonacci numbers and corresponding values from the fibonacci sequence
     for the page requested. If any of the numbers are on the BLACKLIST those are removed
@@ -50,27 +50,27 @@ def fibonacci_values(page: int, items_per_page: int) -> Tuple[List[Tuple[int, in
     total_items = page * items_per_page
     sequence = fibonacci_sequence(total_items)
     values = [(number, value) for number, value in sequence.items() if number not in BLACKLIST]
-    return paginate.Page(values, page=page, items_per_page=items_per_page).items, 200
+    return {"values": paginate.Page(values, page=page, items_per_page=items_per_page).items}, 200
 
 
-def blacklist_add(number: int) -> Tuple[str, int]:
+def blacklist_add(number: int) -> Tuple[Dict[str, str], int]:
     """
     Adds a number to the blacklist
     :param number: Number to be added to the blacklist
-    :return: Status message and status code
+    :return: Dict with tatus message and status code
     """
     BLACKLIST.add(number)
-    return f"Value {number} added to blacklist", 200
+    return {"value": f"Value {number} added to blacklist"}, 200
 
 
-def blacklist_remove(number) -> Tuple[str, int]:
+def blacklist_remove(number) -> Tuple[Dict[str, str], int]:
     """
     Removes a number from the blacklist
     :param number: Number to be removed from the blacklist
-    :return: Status message and status code
+    :return: Dict with status message and status code
     """
     try:
         BLACKLIST.remove(number)
-        return f"Value {number} removed from blacklist", 200
+        return {"value": f"Value {number} removed from blacklist"}, 200
     except KeyError:
-        return f"Value {number} is not blacklisted", 400
+        return {"value": f"Value {number} is not blacklisted"}, 400

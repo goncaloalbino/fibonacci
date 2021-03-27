@@ -26,10 +26,10 @@ class FibonacciTest(unittest.TestCase):
         value_1 = fibonacci_value(2)
         value_2 = fibonacci_value(10)
 
-        self.assertEqual(value_1[0], FIBONACCI_VALUES[1])
+        self.assertEqual(value_1[0]["value"], FIBONACCI_VALUES[1])
         self.assertEqual(value_1[1], 200)
 
-        self.assertEqual(value_2[0], FIBONACCI_VALUES[9])
+        self.assertEqual(value_2[0]["value"], FIBONACCI_VALUES[9])
         self.assertEqual(value_2[1], 200)
 
     @patch('api.fibonacci.BLACKLIST', {2, 5})
@@ -37,10 +37,10 @@ class FibonacciTest(unittest.TestCase):
         value_1 = fibonacci_value(2)
         value_2 = fibonacci_value(5)
 
-        self.assertIn(value_1[0], "Number 2 is blacklisted")
+        self.assertIn(value_1[0]["value"], "Number 2 is blacklisted")
         self.assertEqual(value_1[1], 400)
 
-        self.assertIn(value_2[0], "Number 5 is blacklisted")
+        self.assertIn(value_2[0]["value"], "Number 5 is blacklisted")
         self.assertEqual(value_2[1], 400)
 
     def test_fibonacci_values(self):
@@ -49,9 +49,9 @@ class FibonacciTest(unittest.TestCase):
         fib_sequence2 = fibonacci_values(page=2, items_per_page=5)
         fib_sequence3 = fibonacci_values(page=3, items_per_page=3)
 
-        self.assertEqual(fib_sequence1[0], list(zip(numbers, FIBONACCI_VALUES)))
-        self.assertEqual(fib_sequence2[0], list(zip(numbers[5:], FIBONACCI_VALUES[5:])))
-        self.assertEqual(fib_sequence3[0], list(zip(numbers[6:9], FIBONACCI_VALUES[6:9])))
+        self.assertEqual(fib_sequence1[0]["values"], list(zip(numbers, FIBONACCI_VALUES)))
+        self.assertEqual(fib_sequence2[0]["values"], list(zip(numbers[5:], FIBONACCI_VALUES[5:])))
+        self.assertEqual(fib_sequence3[0]["values"], list(zip(numbers[6:9], FIBONACCI_VALUES[6:9])))
         self.assertEqual(fib_sequence3[1], 200)
 
     @patch('api.fibonacci.BLACKLIST', {2, 5})
@@ -65,7 +65,7 @@ class FibonacciTest(unittest.TestCase):
             del sequence[number]
         values = [(number, value) for number, value in sequence.items()]
 
-        self.assertEqual(fib_sequence[0], values)
+        self.assertEqual(fib_sequence[0]["values"], values)
         self.assertEqual(fib_sequence[1], 200)
 
     @patch('api.fibonacci.BLACKLIST', set())
@@ -81,7 +81,7 @@ class FibonacciTest(unittest.TestCase):
         self.assertEqual(len(BLACKLIST), 2)
         self.assertEqual(BLACKLIST, {number_1, number_2})
         self.assertEqual(result[1], 200)
-        self.assertIn(result[0],  f"Value {number_2} added to blacklist")
+        self.assertIn(result[0]["value"],  f"Value {number_2} added to blacklist")
 
     def test_remove_blacklist_invalid_number(self):
         number = 5
@@ -89,7 +89,7 @@ class FibonacciTest(unittest.TestCase):
         result = blacklist_remove(number)
 
         self.assertEqual(result[1], 400)
-        self.assertIn(result[0],  f"Value {number} is not blacklisted")
+        self.assertIn(result[0]["value"],  f"Value {number} is not blacklisted")
 
     @patch('api.fibonacci.BLACKLIST', {5})
     def test_remove_blacklist_number(self):
@@ -101,5 +101,5 @@ class FibonacciTest(unittest.TestCase):
         result = blacklist_remove(number)
 
         self.assertEqual(result[1], 200)
-        self.assertIn(result[0], f"Value {number} removed from blacklist")
+        self.assertIn(result[0]["value"], f"Value {number} removed from blacklist")
         self.assertEqual(len(BLACKLIST), 0)
